@@ -34,8 +34,8 @@
             <%= render_issue_card_hours(@query, issue) %>
           </p>
 
-          <p class="priority">
-            <b>Priority</b>: <%= issue.priority.name %>
+          <p class="agile-priority">
+            <b class="agile-priority-title">Priority</b>: <%= issue.priority.name %>
           </p>
 
           <p class="name" ><%= link_to "#{'#' + issue.id.to_s + ': ' if @query.has_column_name?(:id) && @query.has_column_name?(:tracker).blank?}#{issue.subject.truncate(100)}", issue_path(issue) %></p>
@@ -119,7 +119,12 @@
             </div>
           <% end %>
           <div class="agile-card-footer">
-            <a href="#" class="edit-issue-link" data-issue-id="<%= issue.id %>">✏️ Edit</a>
+            <div class="agile-card-footer-item">
+              <a href="#" class="edit-issue-link" data-issue-id="<%= issue.id %>">✏️ Edit</a>
+            </div>
+            <div class="agile-card-footer-item">
+              <a href="/issues/<%= issue.id %>" class="view-issue-link" data-issue-id="<%= issue.id %>">View Detail</a>
+            </div>
           </div>
       </span>
     <% end %>

@@ -65,10 +65,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // reset
     const isAgileBoardEditIssueBtn = e.target.closest(".edit-issue-link");
     const isAgileBoardCreateIssueBtn = e.target.closest("#new-agile-issue-btn");
+    const isAgileBoardViewIssueByName = e.target.closest('p.name a')
 
-    const isListIssuesEditBtn = e.target.closest("a.icon-edit");
+    const isListIssuesEditBtn = e.target.closest("#context-menu a.icon-edit");
     const isListIssuesCreateBtn = e.target.closest("a.icon-add.new-issue")
-
 
     if (isListIssuesCreateBtn && isListIssuesCreateBtn.getAttribute("href")?.includes("/projects")) {
       e.preventDefault();
@@ -93,6 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    if (isAgileBoardViewIssueByName) {
+      e.preventDefault();
+
+      handleViewIssueModal(isAgileBoardViewIssueByName.getAttribute('href'))
+      return;
+    }
+
     if (isAgileBoardCreateIssueBtn) {
       e.preventDefault();
       afterSubmit = () => {
@@ -114,6 +121,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  function handleViewIssueModal(href) {
+    fetch(href)
+      .then((res) => res.text())
+      .then((html) => {
+        openModal("View Issue", html)
+      });
+  }
 
   function handleCreateIssueModal(href) {
     fetch(href)
