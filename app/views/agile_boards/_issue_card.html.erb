@@ -33,11 +33,12 @@
             <% end %>
             <%= render_issue_card_hours(@query, issue) %>
           </p>
-          <p class="name" ><%= link_to "#{'#' + issue.id.to_s + ': ' if @query.has_column_name?(:id) && @query.has_column_name?(:tracker).blank?}#{issue.subject.truncate(100)}", issue_path(issue) %></p>
-          
-          <p class="attributes">
+
+          <p class="priority">
             <b>Priority</b>: <%= issue.priority.name %>
           </p>
+
+          <p class="name" ><%= link_to "#{'#' + issue.id.to_s + ': ' if @query.has_column_name?(:id) && @query.has_column_name?(:tracker).blank?}#{issue.subject.truncate(100)}", issue_path(issue) %></p>
 
           <p class="attributes">
             <% @query.card_columns.select{|c| !c.value(issue).blank? }.each do |column| %>
