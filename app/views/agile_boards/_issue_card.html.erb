@@ -102,9 +102,7 @@
             </p>
           <% end %>
 
-          <% if @query.has_column_name?(:done_ratio) %>
-            <%= progress_bar(issue.done_ratio, :width => '100%') %>
-          <% end %>
+          <%= progress_bar(issue.done_ratio, :width => '100%') %>
 
           <% if (last_comment = @query.issue_last_comment(issue, :inline_adding => @inline_adding)) %>
             <em class="info description last_comment" title='<%= last_comment.user.to_s + " " + format_date(last_comment.created_on) %>'>

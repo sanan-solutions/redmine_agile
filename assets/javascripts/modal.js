@@ -113,7 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Nếu là từ Agile board
     if (isAgileBoardEditIssueBtn) {
       e.preventDefault();
-      afterSubmit = null
+      afterSubmit = () => {
+        const issueId = isAgileBoardEditIssueBtn.dataset.issueId;
+        handleEditIssueModal(`/issues/${issueId}/edit`);
+      }
 
       const issueId = isAgileBoardEditIssueBtn.dataset.issueId;
       handleEditIssueModal(`/issues/${issueId}/edit`);
