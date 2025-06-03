@@ -17,7 +17,7 @@
   max-width: 90%;
   border-radius: 8px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-  animation: slideDown 0.3s ease-out;
+  animation: slideDown 0.2s ease-out;
   overflow: hidden;
 }
 
