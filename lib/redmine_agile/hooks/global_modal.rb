@@ -8,8 +8,6 @@ module RedmineIssueModal
         <script src="/javascripts/jstoolbar/lang/jstoolbar-en.js"></script>
         <script src="/javascripts/tribute-5.1.3.min.js"></script>
         <script src="/javascripts/context_menu.js"></script>
-        <script src="/javascripts/application.js"></script>
-        <script src="/javascripts/responsive.js"></script>
         <script src="/javascripts/attachments.js"></script>
       HTML
       tags.html_safe
