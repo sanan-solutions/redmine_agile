@@ -52,6 +52,24 @@ div.agile-board.autoscroll {
   position: relative;
 }
 
+/* Custom: CSS Add for scroll table */
+.agile-board-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.issues-board {
+  width: fit-content !important; /* Cho phép table mở rộng theo nội dung */
+  min-width: 100%;
+  table-layout: auto !important;
+}
+
+.issues-board td.issue-status-col {
+  min-width: 150px;
+  vertical-align: top;
+}
+
 /**********************************************************************/
 /* BOARD SETTINGS
 /**********************************************************************/
