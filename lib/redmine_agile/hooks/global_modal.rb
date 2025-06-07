@@ -3,8 +3,14 @@ module RedmineIssueModal
     def view_layouts_base_html_head(context = {})
       tags = <<-HTML
         <script src="/javascripts/jstoolbar/jstoolbar.js"></script>
+        <script src="/javascripts/jstoolbar/common_mark.js"></script>
         <script src="/javascripts/jstoolbar/textile.js"></script>
         <script src="/javascripts/jstoolbar/lang/jstoolbar-en.js"></script>
+        <script src="/javascripts/tribute-5.1.3.min.js"></script>
+        <script src="/javascripts/context_menu.js"></script>
+        <script src="/javascripts/application.js"></script>
+        <script src="/javascripts/responsive.js"></script>
+        <script src="/javascripts/attachments.js"></script>
       HTML
       tags.html_safe
     end

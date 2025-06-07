@@ -1,6 +1,6 @@
 .global-modal {
   position: fixed;
-  z-index: 9999;
+  z-index: 5000;
   left: 0;
   top: 0;
   width: 100vw;
@@ -9,6 +9,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#context-menu {
+  position: absolute;
+  z-index: 9999 !important;
+  font-size: 0.9em;
 }
 
 .global-modal__content {

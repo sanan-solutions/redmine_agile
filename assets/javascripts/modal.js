@@ -19,11 +19,59 @@ document.addEventListener("DOMContentLoaded", function () {
     location.reload()
   }
 
+  function extractToolbarInfo(scriptContent) {
+    const elementIdMatch = scriptContent.match(/new\s+jsToolBar\s*\(\s*document\.getElementById\s*\(\s*['"]([^'"]+)['"]\s*\)\s*\)/);
+    const helpLinkMatch = scriptContent.match(/\.setHelpLink\s*\(\s*['"]([^'"]+)['"]\s*\)/);
+    const previewUrlMatch = scriptContent.match(/\.setPreviewUrl\s*\(\s*['"]([^'"]+)['"]\s*\)/);
+
+    return {
+      elementId: elementIdMatch?.[1] || null,
+      helpLink: helpLinkMatch?.[1] || null,
+      previewUrl: previewUrlMatch?.[1] || null
+    };
+  }
+
+  function initWikiToolBar(textAreaElementId, helpLink, previewUrl) {
+    var wikiToolbar = new jsToolBar(
+      document.getElementById(textAreaElementId)
+    );
+    wikiToolbar.setHelpLink(
+      helpLink
+    );
+    wikiToolbar.setPreviewUrl(
+      previewUrl
+    );
+    wikiToolbar.draw();
+  }
+
   function openModal(title, content) {
     modalTitle.innerHTML = title
 
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
+
+    // Nào có time test thêm, tự động trích xuất các thẻ head và chèn vào document từ html response trả về
+    // tempDiv.querySelectorAll('link, style').forEach(tag => {
+    //   const tagKey = tag.outerHTML;
+    //   if (![...document.head.children].some(el => el.outerHTML === tagKey)) {
+    //     document.head.appendChild(tag);
+    //   }
+    // });
+    // tempDiv.querySelectorAll('script').forEach(tag => {
+    //   const tagKey = tag.outerHTML;
+    //   if (![...document.head.children].some(el => el.outerHTML === tagKey)) {
+    //     console.log('tag appen', tag)
+    //     document.head.appendChild(tag);
+    //   }
+    // });
+
+    const wikiToolBarInfos = []
+    const scripts = tempDiv.querySelectorAll('script');
+    scripts.forEach(tag => {
+      if (tag.textContent && tag.textContent.includes('var wikiToolbar = new jsToolBar')) {
+        wikiToolBarInfos.push(extractToolbarInfo(tag.textContent))
+      }
+    });
 
     // Xoá các phần tử không mong muốn trước khi đưa vào DOM chính
     tempDiv.querySelector('#top-menu')?.remove();
@@ -43,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     modalBody.querySelectorAll('input[type=submit][data-disable-with]').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        console.log('e', e.target.dataset.disableWith)
         if (["Create and add another", "Submit"].includes(e.target.dataset.disableWith)) {
           // Create and add another or Submit Edit
           isCloseModalAfterSubmit = false
@@ -52,6 +99,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
+
+    // Có thể bỏ khi auto load script, .... vào document hoat dong
+    if (!window.wikiImageMimeTypes) {
+      window.wikiImageMimeTypes = ["image/gif", "image/jpeg", "image/png", "image/tiff", "image/x-ms-bmp"]
+    }
+    if (!window.userHlLanguages) {
+      window.userHlLanguages = ["c", "cpp", "csharp", "css", "diff", "go", "groovy", "html", "java", "javascript", "objc", "perl", "php", "python", "r", "ruby", "sass", "scala", "shell", "sql", "swift", "xml", "yaml"];
+    }
+
+    // 1. Đăng ký lại target cho sự kiện paste
+    const timeout = setTimeout(() => {
+      if (typeof jsToolBar !== 'undefined') {
+        wikiToolBarInfos.forEach(info => {
+          initWikiToolBar(info.elementId, info.helpLink, info.previewUrl)
+        })
+      }
+
+      // Khởi tạo lại xử lý file drop/paste
+      if (typeof setupFileDrop === 'function') {
+        setupFileDrop();
+      }
+
+      clearTimeout(timeout)
+    }, 0);
   }
 
   function setErrorModal() {

@@ -172,6 +172,7 @@ table.list.versions-planning-board .header-hours {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  margin-top: 0.4rem
 }
 
 .agile-priority {
