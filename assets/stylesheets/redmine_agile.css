@@ -190,6 +190,7 @@ table.list.issues-board {
 table.list.issues-board th {
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 200px;
 }
 
 .agile-board table.list.issues-board tbody tr,
